@@ -21,7 +21,19 @@ const settings = {
       -TRIED CHANGING THE TIMEOUT SO THAT EACH ITERATION RUNS SEPARATE BY MULTIPLYING INDEX BY TIMEOUT, BUT NOT SUCCESSFUL YET
       -SEE COMMENTED CODE SECTION NEAR BOTTOM AT THE AGENTS.FOREACH() LOOPS FOR MORE INFO (~LINE 172)
       */
-      
+
+// [NEW] This function will return a PROMISE which will be fullfiled after the timeout is done
+const drawAgent = (agent) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      agent.draw(context);
+      agent.update();
+      agent.bounce(width, height);
+      resolve(agent);
+    }, 500 * (i + 1));
+  });
+};
+
 //Establishes the sketch
 const sketch = ({ context, width, height }) => {
   //Establishes the center agent
@@ -94,74 +106,73 @@ const sketch = ({ context, width, height }) => {
     }
     //lines between moreAgents
     for (let i = 0; i < moreAgents.length; i++) {
-        const agent = moreAgents[i];
-        //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
-        for (let j = i + 1; j < moreAgents.length; j++) {
-          const other = agents[i]; //make sure there are less moreAgents than agents
-          const dist = agent.pos.getDistance(other.pos);
-          //draws line between agents if dist conditional met
-          if (dist > 65) {
-            context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
-            context.beginPath();
-            context.moveTo(agent.pos.x, agent.pos.y);
-            context.lineTo(other.pos.x, other.pos.y);
-            context.stroke();
-          }
+      const agent = moreAgents[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents.length; j++) {
+        const other = agents[i]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(other.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
         }
       }
+    }
 
-      for (let i = 0; i < moreAgents2.length; i++) {
-        const agent = moreAgents2[i];
-        //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
-        for (let j = i + 1; j < moreAgents2.length; j++) {
-          const other = moreAgents[i]; //make sure there are less moreAgents than agents
-          const dist = agent.pos.getDistance(other.pos);
-          //draws line between agents if dist conditional met
-          if (dist > 65) {
-            context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
-            context.beginPath();
-            context.moveTo(agent.pos.x, agent.pos.y);
-            context.lineTo(other.pos.x, other.pos.y);
-            context.stroke();
-          }
+    for (let i = 0; i < moreAgents2.length; i++) {
+      const agent = moreAgents2[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents2.length; j++) {
+        const other = moreAgents[i]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(other.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
         }
       }
+    }
 
-      for (let i = 0; i < moreAgents3.length; i++) {
-        const agent = moreAgents3[i];
-        //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
-        for (let j = i + 1; j < moreAgents3.length; j++) {
-          const other = moreAgents2[i]; //make sure there are less moreAgents than agents
-          const dist = agent.pos.getDistance(other.pos);
-          //draws line between agents if dist conditional met
-          if (dist > 65) {
-            context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
-            context.beginPath();
-            context.moveTo(agent.pos.x, agent.pos.y);
-            context.lineTo(other.pos.x, other.pos.y);
-            context.stroke();
-          }
+    for (let i = 0; i < moreAgents3.length; i++) {
+      const agent = moreAgents3[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents3.length; j++) {
+        const other = moreAgents2[i]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(other.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
         }
       }
+    }
 
-      for (let i = 0; i < moreAgents4.length; i++) {
-        const agent = moreAgents4[i];
-        //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
-        for (let j = i + 1; j < moreAgents4.length; j++) {
-          const other = moreAgents3[i]; //make sure there are less moreAgents than agents
-          const dist = agent.pos.getDistance(other.pos);
-          //draws line between agents if dist conditional met
-          if (dist > 65) {
-            context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
-            context.beginPath();
-            context.moveTo(agent.pos.x, agent.pos.y);
-            context.lineTo(other.pos.x, other.pos.y);
-            context.stroke();
-          }
+    for (let i = 0; i < moreAgents4.length; i++) {
+      const agent = moreAgents4[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents4.length; j++) {
+        const other = moreAgents3[i]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(other.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
         }
       }
+    }
     //END - lines between agents
-
 
     //draw center agent
     centerAgents.forEach((CenterAgent) => {
@@ -170,44 +181,47 @@ const sketch = ({ context, width, height }) => {
     });
 
     // //draws each agent in agents array with a delay (in theory..)
-    // agents.forEach(function (agent, i) {
-    //   setTimeout(function () {
-    //     agent.draw(context);
-    //     agent.update();
-    //     agent.bounce(width, height);
-    //   }, 500 * (i + 1));
+
+    // [NEW] This method will wait untill all the promises are resolved
+    // We use the map method to convert each agent into a promise
+    // Each promise will wait unitl the setTimeout is finished, run the draw functions and fullfill the promise
+
+    Promise.all(agents.map(drawAgent)).then((arrayOfPromises) => {
+      // The value of arrayOfPromises is an Array of the response of the Promises, in this case is the agent
+      console.log(`Yay! We draw all the agents`);
+      console.log(`[Results] => `, arrayOfPromises);
+    });
+
+    //START - drawing each agent in the arrays
+    // agents.forEach((agent) => {
+    //   agent.draw(context);
+    //   agent.update();
+    //   agent.bounce(width, height);
     // });
 
-    //START - drawing each agent in the arrays 
-    agents.forEach((agent) => {
-      agent.draw(context);
-      agent.update();
-      agent.bounce(width, height);
-    });
-    
-    moreAgents.forEach((agent) => {
-        agent.draw(context);
-        agent.update();
-        agent.bounce(width, height);
-      });
+    // moreAgents.forEach((agent) => {
+    //   agent.draw(context);
+    //   agent.update();
+    //   agent.bounce(width, height);
+    // });
 
-      moreAgents2.forEach((agent) => {
-        agent.draw(context);
-        agent.update();
-        agent.bounce(width, height);
-      });
+    // moreAgents2.forEach((agent) => {
+    //   agent.draw(context);
+    //   agent.update();
+    //   agent.bounce(width, height);
+    // });
 
-      moreAgents3.forEach((agent) => {
-        agent.draw(context);
-        agent.update();
-        agent.bounce(width, height);
-      });
+    // moreAgents3.forEach((agent) => {
+    //   agent.draw(context);
+    //   agent.update();
+    //   agent.bounce(width, height);
+    // });
 
-      moreAgents4.forEach((agent) => {
-        agent.draw(context);
-        agent.update();
-        agent.bounce(width, height);
-      });
+    // moreAgents4.forEach((agent) => {
+    //   agent.draw(context);
+    //   agent.update();
+    //   agent.bounce(width, height);
+    // });
     //END - drawing each agent in the arrays
   };
 };
