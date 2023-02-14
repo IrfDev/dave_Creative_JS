@@ -23,7 +23,7 @@ const settings = {
       */
 
 // [NEW] This function will return a PROMISE which will be fullfiled after the timeout is done
-const drawAgent = (agent) => {
+const drawAgent = (agent, i) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       agent.draw(context);
