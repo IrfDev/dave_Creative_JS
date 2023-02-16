@@ -1,28 +1,12 @@
 const canvasSketch = require("canvas-sketch");
 const random = require("canvas-sketch-util/random");
 const math = require("canvas-sketch-util/math");
+const { arrayFromNumber, rangeRandom } = require("./utils/misc");
 
 const settings = {
   dimensions: [720, 720],
   animate: true,
 };
-//THIS FILE IS USED TO CREATE THE INITIO ANIMATION
-//RATHER THAN PROGRAMMING THE ANIMATION IN THE INITIO CODEBASE, I DECIDED TO CREATE A SEPARATE JS FILE TO CREATE THE ANIMATION & EXPORT AS MP4
-
-/* INTENDED FUNCTION OF THIS SKETCH:
-    -CREATE AGENT IN CENTER OF SCREEN
-    -CREATE ADDITIONAL AGENTS AROUND THE CENTER AGENT
-    -CONTINUE ADDING AGENTS AT INCREASING DISTANCE FROM CENTER AGENT
-    -DRAW LINES EXTENDING FROM CENTER AGENT TO OUTER AGENTS
-    -GOAL IS A 'BRANCHING' ANIMATION THAT GROWS OUTWARD
-    
-    TODO: ADD DELAY FOR DRAWING OUTER AGENTS -> IE FIRST AGENT 1 SEC, 2ND ITERATION 2 SEC, 3RD AT 3 SEC, ETC
-      -CURRENT PROBLEM: TIMEOUT IS NOT WORKING CORRECTLY, DUE TO SETTIMEOUT BEING ASYNC
-      -TRIED CHANGING THE TIMEOUT SO THAT EACH ITERATION RUNS SEPARATE BY MULTIPLYING INDEX BY TIMEOUT, BUT NOT SUCCESSFUL YET
-      -SEE COMMENTED CODE SECTION NEAR BOTTOM AT THE AGENTS.FOREACH() LOOPS FOR MORE INFO (~LINE 172)
-      */
-
-// [NEW] This function will return a PROMISE which will be fullfiled after the timeout is done
 
 //Establishes the sketch
 const sketch = ({ context, width, height }) => {
@@ -53,19 +37,74 @@ const sketch = ({ context, width, height }) => {
   }
 
   agents.forEach((agentClass, index) => {
-    let numberOfSubDots = 7;
-    for (let i = 0; i < numberOfSubDots; i++) {
-      let x = random.range(agentClass.pos.x, agentClass.pos.x);
-      let y = random.range(agentClass.pos.y, agentClass.pos.y);
-      let currentItemNumber = i + 1;
-      let initialTime = 2 + currentItemNumber;
+    let subdotsEmptyArray = arrayFromNumber(1);
+
+    subdotsEmptyArray.forEach((number, index2) => {
+      let x = agentClass.pos.x;
+      let y = agentClass.pos.y;
+      let currentItemNumber = index2 + 1;
+      let initialTime = 1 + currentItemNumber;
       moreAgents.push(
         new Agent(x, y, initialTime, {
           parent: "agents",
           index,
         })
       );
-    }
+    });
+  });
+
+  moreAgents.forEach((agentClass, index) => {
+    let randomNumber = rangeRandom(1, 3);
+    let subdotsEmptyArray = arrayFromNumber(randomNumber);
+
+    subdotsEmptyArray.forEach((number, index2) => {
+      let x = agentClass.pos.x;
+      let y = agentClass.pos.y;
+      let currentItemNumber = index2 + 1;
+      let initialTime = 4 + currentItemNumber;
+      moreAgents2.push(
+        new Agent(x, y, initialTime, {
+          parent: "agents",
+          index,
+        })
+      );
+    });
+  });
+
+  moreAgents2.forEach((agentClass, index) => {
+    let randomNumber = rangeRandom(1, 4);
+    let subdotsEmptyArray = arrayFromNumber(randomNumber);
+
+    subdotsEmptyArray.forEach((number, index2) => {
+      let x = random.range(agentClass.pos.x, agentClass.pos.x);
+      let y = random.range(agentClass.pos.y, agentClass.pos.y);
+      let currentItemNumber = index2 + 1;
+      let initialTime = 5 + currentItemNumber;
+      moreAgents3.push(
+        new Agent(x, y, initialTime, {
+          parent: "agents",
+          index,
+        })
+      );
+    });
+  });
+
+  moreAgents3.forEach((agentClass, index) => {
+    let randomNumber = rangeRandom(1, 3);
+    let subdotsEmptyArray = arrayFromNumber(randomNumber);
+
+    subdotsEmptyArray.forEach((number, index2) => {
+      let x = random.range(agentClass.pos.x - 1, agentClass.pos.x + 1);
+      let y = random.range(agentClass.pos.y - 1, agentClass.pos.y + 1);
+      let currentItemNumber = index2 + 1;
+      let initialTime = 6 + currentItemNumber;
+      moreAgents4.push(
+        new Agent(x, y, initialTime, {
+          parent: "agents",
+          index,
+        })
+      );
+    });
   });
 
   // for (let i = 0; i < 10; i++) {
@@ -121,6 +160,57 @@ const sketch = ({ context, width, height }) => {
       //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
       for (let j = i + 1; j < moreAgents.length; j++) {
         const other = agents[agent.parent.index]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(centerAgent.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65 && other.isRender) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
+        }
+      }
+    }
+
+    for (let i = 0; i < moreAgents2.length; i++) {
+      const agent = moreAgents2[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents2.length; j++) {
+        const other = moreAgents[agent.parent.index]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(centerAgent.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65 && other.isRender) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
+        }
+      }
+    }
+
+    for (let i = 0; i < moreAgents3.length; i++) {
+      const agent = moreAgents3[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents3.length; j++) {
+        const other = moreAgents2[agent.parent.index]; //make sure there are less moreAgents than agents
+        const dist = agent.pos.getDistance(centerAgent.pos);
+        //draws line between agents if dist conditional met
+        if (dist > 65 && other.isRender) {
+          context.lineWidth = math.mapRange(dist, 0, 225, 0.1, 0.1, 5);
+          context.beginPath();
+          context.moveTo(agent.pos.x, agent.pos.y);
+          context.lineTo(other.pos.x, other.pos.y);
+          context.stroke();
+        }
+      }
+    }
+
+    for (let i = 0; i < moreAgents4.length; i++) {
+      const agent = moreAgents4[i];
+      //j = i+1 instead of j = 0 reduces unneeded iterations through second loop
+      for (let j = i + 1; j < moreAgents4.length; j++) {
+        const other = moreAgents3[agent.parent.index]; //make sure there are less moreAgents than agents
         const dist = agent.pos.getDistance(centerAgent.pos);
         //draws line between agents if dist conditional met
         if (dist > 65 && other.isRender) {
@@ -223,7 +313,34 @@ const sketch = ({ context, width, height }) => {
     moreAgents.forEach((agent, i) => {
       const parentAgent = agents[agent.parent.index];
       if (parentAgent.isRender) {
-        agent.draw(context, time);
+        agent.draw(context, time, parentAgent.pos);
+        agent.update();
+        agent.bounce(width, height);
+      }
+    });
+
+    moreAgents2.forEach((agent, i) => {
+      const parentAgent = moreAgents[agent.parent.index];
+      if (parentAgent.isRender) {
+        agent.draw(context, time, parentAgent.pos);
+        agent.update();
+        agent.bounce(width, height);
+      }
+    });
+
+    moreAgents3.forEach((agent, i) => {
+      const parentAgent = moreAgents2[agent.parent.index];
+      if (parentAgent.isRender) {
+        agent.draw(context, time, parentAgent.pos);
+        agent.update();
+        agent.bounce(width, height);
+      }
+    });
+
+    moreAgents4.forEach((agent, i) => {
+      const parentAgent = moreAgents3[agent.parent.index];
+      if (parentAgent.isRender) {
+        agent.draw(context, time, parentAgent.pos);
         agent.update();
         agent.bounce(width, height);
       }
@@ -298,9 +415,14 @@ class Agent {
     }
   }
 
-  draw(context, time) {
+  draw(context, time, parentPosition) {
     context.save();
+
     if (time >= this.initialTime) {
+      if (!this.isRender && parentPosition) {
+        this.pos.x = parentPosition.x;
+        this.pos.y = parentPosition.y;
+      }
       this.isRender = true;
       context.translate(this.pos.x, this.pos.y);
       context.lineWidth = 1.5;
