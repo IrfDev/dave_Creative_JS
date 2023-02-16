@@ -27,10 +27,12 @@ const sketch = ({ context, width, height }) => {
   centerAgents.push(centerAgent);
 
   //START - loop through arrays establish position for outer agents
+  // Change how many dots/lines
   let numberOfAgents = 10;
   for (let i = 0; i < numberOfAgents; i++) {
     let x = random.range(centerX - 5, centerX + 5);
     let y = random.range(centerY - 5, centerY + 5);
+    // Change delay
     let currentItemNumber = i + 1;
     let initialTime = 0.5 + currentItemNumber;
     agents.push(new Agent(x, y, initialTime));
